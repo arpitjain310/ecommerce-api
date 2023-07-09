@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 
-//list
+//read/list operation
 exports.listProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -10,7 +10,7 @@ exports.listProducts = async (req, res) => {
   }
 };
 
-//create
+//create operation
 exports.createProduct = async (req, res) => {
   try {
     const { name, quantity } = req.body;
@@ -23,7 +23,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-//delete
+//delete operation
 exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -34,7 +34,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-//update
+//update operation
 exports.updateProductQuantity = async (req, res) => {
   try {
     const { id } = req.params;

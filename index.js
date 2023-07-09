@@ -1,14 +1,21 @@
+//importing necessary modules
 const express = require('express');
 const app = express();
 const path = require('path');
-const port = 8000;
+//to use env file
+const dotenv = require('dotenv');
+dotenv.config();
+
+const port = process.env.PORT;
+
+const db = require('./config/mongoose');
+const Product = require('./models/product');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, 'assets')));
 
 // Serve static files with the correct MIME type
 app.use('/assets', express.static(path.join(__dirname, 'assets'), { 
