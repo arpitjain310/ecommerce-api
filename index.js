@@ -11,10 +11,14 @@ const port = process.env.PORT;
 const db = require('./config/mongoose');
 const Product = require('./models/product');
 
+//setting view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+//for parsing url-encoded payloads
 app.use(express.urlencoded({ extended: true }));
+
+//for parsing json payloads
 app.use(express.json());
 
 // Serve static files with the correct MIME type
