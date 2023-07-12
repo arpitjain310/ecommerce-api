@@ -4,9 +4,9 @@ const Product = require('../models/product');
 exports.listProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    res.render('index', { products });
+    res.json({ data: { products } });
   } catch (error) {
-    res.render('message', { message: 'An error occurred' });
+    res.status(500).json({ error: 'An error occurred' });
   }
 };
 
@@ -17,9 +17,9 @@ exports.createProduct = async (req, res) => {
     const product = new Product({ name, quantity });
     await product.save();
 
-    res.render('message', { message: 'Product added successfully' });
+    res.status(201).json({ data: { product } });
   } catch (error) {
-    res.render('message', { message: 'An error occurred' });
+    res.status(500).json({ error: 'An error occurred' });
   }
 };
 
@@ -28,9 +28,9 @@ exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     await Product.findByIdAndDelete(id);
-    res.redirect('/');
+    res.json({ data: { message: 'Product deleted' } });
   } catch (error) {
-    res.render('message', { message: 'An error occurred' });
+    res.status(500).json({ error: 'An error occurred' });
   }
 };
 
@@ -38,10 +38,12 @@ exports.deleteProduct = async (req, res) => {
 exports.updateProductQuantity = async (req, res) => {
   try {
     const { id } = req.params;
-    const { quantity } = req.body;
-    await Product.findByIdAndUpdate(id, { quantity });
-    res.redirect('/');
+    const { number } = req.body;
+    const product = await Product.findByIdAndUpdate(id, { quantity: number },
+    { new: true }
+    );
+    res.json({ data: { product, message: 'Updated successfully' } });
   } catch (error) {
-    res.render('message', { message: 'An error occurred' });
+    res.status(500).json({ error: 'An error occurred' });
   }
 };
